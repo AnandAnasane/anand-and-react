@@ -6,9 +6,6 @@ function App() {
     <>
     <h1>Anand and React | Basic</h1>
 
-    
-    
-    
     </>
   );
 }
