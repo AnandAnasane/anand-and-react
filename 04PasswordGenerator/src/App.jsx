@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 function App() {
 
@@ -24,6 +24,20 @@ function App() {
 
   }, [length, numberAllowed, charAllowed, setpassword] )
 
+
+  // UseRef 
+
+  const passwordRef = useRef(null)
+
+  const copyPasswordToClipboard= useCallback(()=>{
+    passwordRef.current?.select()
+    // passwordRef.current?.setSelectionRange(8, 18)
+    window.navigator.clipboard.writeText(password)
+
+  }, [password])
+
+
+
     useEffect(()=>{
       passwordGenerator()
     },  [length, numberAllowed, charAllowed, passwordGenerator])
@@ -31,8 +45,8 @@ function App() {
 
   return (
     <>
-      <div className="w-full max-w-2xl mx-auto shadow-md rounded-lg bg-gray-400 px-8 my-8 py-6">
-        <h1 className="text-center font-medium text-4xl mb-3">Password Generator</h1>
+      <div className="w-full max-w-2xl mx-auto shadow-md text-orange-500 rounded-lg bg-gray-400 px-8 my-8 py-6">
+        <h1 className="text-center font-medium text-black text-4xl mb-3">Password Generator</h1>
         <div className="flex shadow rounded-4xl overflow-hidden mb-8">
           <input
             type="text"
@@ -40,8 +54,12 @@ function App() {
             className="outline-none w-full py-2 px-3 bg-white rounded-s-full"
             placeholder="Password"
             readOnly
+            ref={passwordRef}
           />
-          <button className="bg-blue-600 text-white px-5 py-1">Copy</button>
+          <button 
+          onClick={copyPasswordToClipboard}
+          className="bg-blue-600 text-white px-5 py-1"
+          >Copy</button>
         </div>
         <div className='flex text-sm  text-orange-950 gap-x-2'>
           <div className='flex items-center gap-x-2 me-5 '>
@@ -52,6 +70,7 @@ function App() {
             value={length}
             className='cursor-pointer'
             onChange={(e)=>{setlength(e.target.value)}}
+            
             />
             <label>Length : {length}</label>
           </div>
